@@ -22,18 +22,6 @@ print "For first time launch, select calibrate"
 print "Type the exact word for the function you want"
 print "calibrate OR manual OR control OR arm OR stop"
 
-connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host='snapptix.ir'))
-channel = connection.channel()
-
-channel.exchange_declare(exchange='pickapp-exchange', exchange_type='direct', durable=True)
-
-result = channel.queue_declare(queue='', exclusive=True)
-queue_name = result.method.queue
-
-channel.queue_bind(
-        exchange='pickapp-exchange', queue=queue_name, routing_key="pickapp-speed-routingkey")
-
 def manual_drive(): #You will use this function to program your ESC if required
     print "You have selected manual option so give a value between 0 and you max value"    
     while True:
@@ -132,11 +120,25 @@ elif inp == "stop":
 else :
     print "Thank You for not following the things I'm saying... now you gotta restart the program STUPID!!"
 
-def callback(ch, method, properties, body):
+def on_message(ch, method, properties, body):
     pulse = control(body.decode())
 
 
-channel.basic_consume(
-    queue=queue_name, on_message_callback=callback, auto_ack=True)
+while True:
+    try:
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host='snapptix.ir'))
+        channel = connection.channel()
+        result = channel.queue_declare(queue='', exclusive=True)
+        queue_name = result.method.queue
+        channel.queue_bind(exchange='pickapp-exchange', queue=queue_name, routing_key="pickapp-speed-routingkey")
+        channel.basic_consume(queue=queue_name, on_message_callback=on_message, auto_ack=True)
+        channel.start_consuming()
+    except:
+        print("connection lost")
+        time.sleep(1)
+        continue
 
-channel.start_consuming()
+    connection.close()
+    break
+
+
