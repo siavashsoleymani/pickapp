@@ -63,6 +63,10 @@ def calibrate():   #This is the auto calibration procedure of a normal ESC
 speed = 1500        
 def control(inp): 
     global speed    # change your speed if you want to.... it should be between 700 - 2000
+    if speed >= 2000:
+        speed = 1500
+    elif speed <= 700:
+        speed = 700
     pi.set_servo_pulsewidth(ESC, speed)
     print(inp)
     if inp == "q":
