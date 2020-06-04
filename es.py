@@ -66,7 +66,7 @@ def control(inp):
     if speed >= 2000:
         speed = 1500
     elif speed <= 700:
-        speed = 700
+        speed = 1500
     pi.set_servo_pulsewidth(ESC, speed)
     print(inp)
     if inp == "q":
