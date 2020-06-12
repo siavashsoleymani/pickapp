@@ -43,8 +43,6 @@ def process(message):
 
 
 while True:
-    global s
-
     try:
         data = s.recv(1024)
     except:
