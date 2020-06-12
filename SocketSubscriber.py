@@ -1,10 +1,14 @@
 import socket
 from time import sleep
 import time
+import RC_speed_controller as rc_speed
+import RC_direct_controller as rc_direct
 
-HOST = '127.0.0.1'
-PORT = 5000
+HOST = 'snapptix.ir'
+PORT = 8081
 s = 1
+
+
 def connect():
     global s
     try:
@@ -12,7 +16,7 @@ def connect():
         s.connect((HOST, PORT))
         s.send(b'2001\n')
     except:
-        print("connection lost try to reconnect")
+        print('connection lost try to reconnect')
         sleep(5)
         return connect()
 
@@ -21,13 +25,19 @@ connect()
 
 
 def process(message):
-
     try:
         split = message.split(',')
         diff = int(round(time.time() * 1000)) - int(split[1])
-        if diff > 200 and split[0] != ' ':
+        command = split[0]
+        if diff > 200 and command != ' ':
+            print('WARNING LATENCY IS MORE THAN 200 MILLIS')
             return
-        print('Received', message)
+        # print('Received', message)
+        if command == 'a' or command == 'd' or command == 'f':
+            rc_direct.changeSteer(command)
+        elif command == 'w' or command == 's' or command == ' ':
+            rc_speed.control(command)
+
     except:
         pass
 
@@ -35,9 +45,12 @@ def process(message):
 while True:
     global s
 
-    data = s.recv(1024)
+    try:
+        data = s.recv(1024)
+    except:
+        connect()
     if len(data) == 0:
-        print("disconnected")
+        print('disconnected')
         connect()
     message = data.decode().rstrip()
     if not message.startswith('h'):
