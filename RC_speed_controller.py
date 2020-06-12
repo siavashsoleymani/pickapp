@@ -20,53 +20,53 @@ print
 "calibrate OR manual OR control OR arm OR stop"
 
 
-def manual_drive():  # You will use this function to program your ESC if required
-    print
-    "You have selected manual option so give a value between 0 and you max value"
-    while True:
-        inp = raw_input()
-        if inp == "stop":
-            stop()
-            break
-        elif inp == "control":
-            control(1500)
-            break
-        elif inp == "arm":
-            arm()
-            break
-        else:
-            pi.set_servo_pulsewidth(ESC, inp)
+# def manual_drive():  # You will use this function to program your ESC if required
+#     print
+#     "You have selected manual option so give a value between 0 and you max value"
+#     while True:
+#         inp = raw_input()
+#         if inp == "stop":
+#             stop()
+#             break
+#         elif inp == "control":
+#             control(1500)
+#             break
+#         elif inp == "arm":
+#             arm()
+#             break
+#         else:
+#             pi.set_servo_pulsewidth(ESC, inp)
 
 
-def calibrate():  # This is the auto calibration procedure of a normal ESC
-    pi.set_servo_pulsewidth(ESC, 0)
-    print("Disconnect the battery and press Enter")
-    inp = raw_input()
-    if inp == '':
-        pi.set_servo_pulsewidth(ESC, max_value)
-        print(
-            "Connect the battery NOW.. you will here two beeps, then wait for a gradual falling tone then press Enter")
-        inp = raw_input()
-        if inp == '':
-            pi.set_servo_pulsewidth(ESC, min_value)
-            print
-            "Wierd eh! Special tone"
-            time.sleep(7)
-            print
-            "Wait for it ...."
-            time.sleep(5)
-            print
-            "Im working on it, DONT WORRY JUST WAIT....."
-            pi.set_servo_pulsewidth(ESC, 0)
-            time.sleep(2)
-            print
-            "Arming ESC now..."
-            pi.set_servo_pulsewidth(ESC, min_value)
-            time.sleep(1)
-            print
-            "See.... uhhhhh"
-            control(1500)  # You can change this to any other function you want
-
+# def calibrate():  # This is the auto calibration procedure of a normal ESC
+#     pi.set_servo_pulsewidth(ESC, 0)
+#     print("Disconnect the battery and press Enter")
+#     inp = raw_input()
+#     if inp == '':
+#         pi.set_servo_pulsewidth(ESC, max_value)
+#         print(
+#             "Connect the battery NOW.. you will here two beeps, then wait for a gradual falling tone then press Enter")
+#         inp = raw_input()
+#         if inp == '':
+#             pi.set_servo_pulsewidth(ESC, min_value)
+#             print
+#             "Wierd eh! Special tone"
+#             time.sleep(7)
+#             print
+#             "Wait for it ...."
+#             time.sleep(5)
+#             print
+#             "Im working on it, DONT WORRY JUST WAIT....."
+#             pi.set_servo_pulsewidth(ESC, 0)
+#             time.sleep(2)
+#             print
+#             "Arming ESC now..."
+#             pi.set_servo_pulsewidth(ESC, min_value)
+#             time.sleep(1)
+#             print
+#             "See.... uhhhhh"
+#             control(1500)  # You can change this to any other function you want
+#
 
 speed = 1500
 
@@ -97,29 +97,29 @@ def control(inp):
         "speed = %d" % speed
     elif inp == " ":
         speed = 1500
-    elif inp == "stop":
-        stop()  # going for the stop function
-    elif inp == "manual":
-        manual_drive()
-    elif inp == "arm":
-        arm()
-    else:
-        print
-        "WHAT DID I SAID!! Press a,q,d or e"
+    # elif inp == "stop":
+    #     stop()  # going for the stop function
+    # elif inp == "manual":
+    #     manual_drive()
+    # elif inp == "arm":
+    #     arm()
+    # else:
+    #     print
+    #     "WHAT DID I SAID!! Press a,q,d or e"
 
 
-def arm():  # This is the arming procedure of an ESC
-    print
-    "Connect the battery and press Enter"
-    inp = raw_input()
-    if inp == '':
-        pi.set_servo_pulsewidth(ESC, 0)
-        time.sleep(1)
-        pi.set_servo_pulsewidth(ESC, max_value)
-        time.sleep(1)
-        pi.set_servo_pulsewidth(ESC, min_value)
-        time.sleep(1)
-        control(1500)
+# def arm():  # This is the arming procedure of an ESC
+#     print
+#     "Connect the battery and press Enter"
+#     inp = raw_input()
+#     if inp == '':
+#         pi.set_servo_pulsewidth(ESC, 0)
+#         time.sleep(1)
+#         pi.set_servo_pulsewidth(ESC, max_value)
+#         time.sleep(1)
+#         pi.set_servo_pulsewidth(ESC, min_value)
+#         time.sleep(1)
+#         control(1500)
 
 
 def stop():  # This will stop every action your Pi is performing for ESC ofcourse.
@@ -129,17 +129,17 @@ def stop():  # This will stop every action your Pi is performing for ESC ofcours
 
 # This is the start of the program actually, to start the function it needs to be initialized before calling... stupid python.
 # inp = raw_input()
-inp = "control"
-if inp == "manual":
-    manual_drive()
-elif inp == "calibrate":
-    calibrate()
-elif inp == "arm":
-    arm()
-elif inp == "control":
-    control(1500)
-elif inp == "stop":
-    stop()
-else:
-    print
-    "Thank You for not following the things I'm saying... now you gotta restart the program STUPID!!"
+# inp = "control"
+# if inp == "manual":
+#     manual_drive()
+# elif inp == "calibrate":
+#     calibrate()
+# elif inp == "arm":
+#     arm()
+# elif inp == "control":
+#     control(1500)
+# elif inp == "stop":
+#     stop()
+# else:
+#     print
+#     "Thank You for not following the things I'm saying... now you gotta restart the program STUPID!!"

@@ -43,10 +43,11 @@ def process(message):
 
 
 while True:
-    try:
-        data = s.recv(1024)
-    except:
-        connect()
+    # try:
+    #     pass
+    # except:
+    #     connect()
+    data = s.recv(1024)
     if len(data) == 0:
         print('disconnected')
         connect()
